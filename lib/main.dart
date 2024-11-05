@@ -1,55 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:getx/controller.dart/getAllProductsController.dart';
-import 'package:getx/local/local_controller.dart' show localeController;
-import 'package:getx/local/themeController.dart';
-
-import 'package:getx/view/SplashScreen.dart';
+import 'package:getx/Controller/WidgetController/DropDownController.dart';
+import 'package:getx/Translate/local_controller.dart' show localeController;
+import 'package:getx/Theme/themeController.dart';
+import 'package:getx/view/Auth/login.dart';
+import 'package:getx/view/website/Home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'Translate/local.dart';
 
-import 'local/local.dart';
-
-SharedPreferences? username;
-SharedPreferences? password;
+SharedPreferences? Username;
+SharedPreferences? Password;
 SharedPreferences? lang;
 SharedPreferences? mode;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  username = await SharedPreferences.getInstance();
-  password = await SharedPreferences.getInstance();
+  Username = await SharedPreferences.getInstance();
+  Password = await SharedPreferences.getInstance();
   lang = await SharedPreferences.getInstance();
   mode = await SharedPreferences.getInstance();
-
-  runApp(MyApp());
+  runApp(const VMS());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
+class VMS extends StatelessWidget {
+  const VMS({super.key});
   @override
   Widget build(BuildContext context) {
-    Get.put(getAllProductsController());
     localeController loc = Get.put(localeController(), permanent: true);
     themeController th = Get.put(themeController(), permanent: true);
+    final DropDownController controller = Get.put(DropDownController());
+
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: "GetX",
       translations: MyLocal(),
       locale: loc.init,
       theme: th.changebool(),
-      home: SplashScreen(),
-      // getPages: [
-      //   GetPage(
-      //     name: "/",
-      //     page: () => SplashScreen(),
-      //   ),
-      //   GetPage(
-      //       name: "/login",
-      //       page: () => Login(),
-      //       middlewares: [AuthMidlleware()]),
-      //   GetPage(name: "/Home", page: () => Home(), binding: productBinding()),
-      // ],
+      home: Directionality(textDirection: TextDirection.rtl, child: Home()),
     );
   }
 }

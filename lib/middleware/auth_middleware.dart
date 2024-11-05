@@ -10,8 +10,8 @@ class AuthMidlleware extends GetMiddleware {
 
   @override
   RouteSettings? redirect(String? route) {
-    if (username!.getString("id") != null &&
-        password!.getString("pass") != null) {
+    if (Username!.getString("username") != null &&
+        Password!.getString("pass") != null) {
       return const RouteSettings(name: "/Home");
     }
   }
